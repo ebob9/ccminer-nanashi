@@ -11,7 +11,11 @@
 #define TPB52 32
 #define TPB30 160
 #define TPB20 160
-
+#include "cuda_helper.h"
+#include "cuda_vectors_alexis.h"
+#include "cuda_helper_alexis.h"
+#include "cuda_vectors_alexis2.h"
+//#include "cuda_vector_uint2x4.h"
 #include "cuda_lyra2Z_sm5.cuh"
 
 #ifdef __INTELLISENSE__
@@ -271,7 +275,7 @@ void lyra2Z_gpu_hash_32_sm2(uint32_t threads, uint32_t startNounce, uint64_t *g_
 #else
 __global__ void lyra2Z_gpu_hash_32_sm2(uint32_t threads, uint32_t startNounce, uint64_t *g_hash, uint32_t *resNonces) {}
 #endif
-
+//__device__ uint2 *DMatrix;
 #if __CUDA_ARCH__ > 500
 
 #include "cuda_lyra2_vectors.h"
@@ -283,7 +287,7 @@ __global__ void lyra2Z_gpu_hash_32_sm2(uint32_t threads, uint32_t startNounce, u
 
 #define BUF_COUNT 0
 
-__device__ uint2 *DMatrix;
+//__device__ uint2 *DMatrix;
 
 __device__ __forceinline__
 void LD4S(uint2 res[3], const int row, const int col, const int thread, const int threads)
@@ -866,7 +870,7 @@ void lyra2Z_gpu_hash_32_3(uint32_t threads, uint32_t startNounce, uint2 *g_hash,
 }
 #else
 #if __CUDA_ARCH__ < 350
-__device__ void* DMatrix;
+//__device__ void* DMatrix;
 #endif
 __global__ void lyra2Z_gpu_hash_32_1(uint32_t threads, uint32_t startNounce, uint2 *g_hash) {}
 __global__ void lyra2Z_gpu_hash_32_2(uint32_t threads, uint32_t startNounce, uint64_t *g_hash) {}
@@ -877,6 +881,7 @@ __host__
 void lyra2Z_cpu_init(int thr_id, uint32_t threads, uint64_t *d_matrix)
 {
 	// just assign the device pointer allocated in main loop
+	
 	cudaMemcpyToSymbol(DMatrix, &d_matrix, sizeof(uint64_t*), 0, cudaMemcpyHostToDevice);
 	cudaMalloc(&d_GNonces[thr_id], 2 * sizeof(uint32_t));
 	cudaMallocHost(&h_GNonces[thr_id], 2 * sizeof(uint32_t));

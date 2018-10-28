@@ -9,11 +9,11 @@
 #endif
 
 #include "cuda_helper.h"
-
+#include "cuda_helper_alexis.h"
 #define TPB50 32
 
 __constant__ uint32_t pTarget[8];
-
+__device__ uint2 *DMatrix;
 static __device__ __forceinline__
 void Gfunc(uint2 & a, uint2 &b, uint2 &c, uint2 &d)
 {
@@ -37,7 +37,7 @@ void Gfunc(uint2 & a, uint2 &b, uint2 &c, uint2 &d)
 #define Ncol 8
 #define memshift 3
 
-__device__ uint2 *DMatrix;
+//__device__ uint2 *DMatrix;
 
 __device__ __forceinline__ uint2 LD4S(const int index)
 {

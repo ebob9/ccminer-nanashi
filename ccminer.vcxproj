@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{36DC07F9-A4A6-4877-A146-1B960083CF6F}</ProjectGuid>
     <RootNamespace>ccminer</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
@@ -40,7 +40,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 9.1.props" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 10.0.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -199,7 +199,7 @@
       <MaxRegCount>80</MaxRegCount>
       <PtxAsOptionV>true</PtxAsOptionV>
       <Keep>true</Keep>
-      <CodeGeneration>compute_61,sm_61;compute_52,sm_52;compute_50,sm_50;compute_70,sm_70;compute_35,sm_35;compute_37,sm_37</CodeGeneration>
+      <CodeGeneration>compute_75,sm_75;compute_72,sm_72;compute_70,sm_70;compute_61,sm_61;compute_52,sm_52;compute_50,sm_50;compute_70,sm_70;compute_35,sm_35;compute_37,sm_37</CodeGeneration>
       <Include>$(NVTOOLSEXT_PATH)\include</Include>
       <Optimization>O3</Optimization>
       <TargetMachinePlatform>64</TargetMachinePlatform>
@@ -265,6 +265,7 @@
     <ClCompile Include="lyra2\Lyra2Z.c" />
     <ClInclude Include="cuda_helper_alexis.h" />
     <ClInclude Include="cuda_vectors_alexis.h" />
+    <ClInclude Include="cuda_vectors_alexis2.h" />
     <ClInclude Include="equi\eqcuda.hpp" />
     <ClInclude Include="equi\equihash.h" />
     <ClInclude Include="lyra2\cuda_lyra2_vectors.h" />
@@ -628,7 +629,7 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 9.1.targets" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 10.0.targets" />
   </ImportGroup>
   <!-- Copy the required dlls -->
   <Target Name="AfterBuild">
