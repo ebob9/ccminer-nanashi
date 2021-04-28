@@ -617,6 +617,9 @@
     <ClInclude Include="compat\nvapi\nvapi_ccsolominer.h">
       <Filter>Header Files\compat\nvapi</Filter>
     </ClInclude>
+    <ClInclude Include="cuda_vectors_alexis2.h">
+      <Filter>Header Files\CUDA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="cuda.cpp">
