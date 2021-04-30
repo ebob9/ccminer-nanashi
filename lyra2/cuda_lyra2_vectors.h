@@ -12,9 +12,9 @@
 
 #include "cuda_helper.h"
 
-#if __CUDA_ARCH__ < 300
-#define __shfl(x, y, z) (x)
-#endif
+//#if __CUDA_ARCH__ < 300
+//#define __shfl_sync(0xFFFFFFFFu, x, y, z) (x)
+//#endif
 
 #if CUDA_VERSION >= 9000 && __CUDA_ARCH__ >= 300
 #define __shfl2(var, srcLane) __shfl_sync(0xFFFFFFFFu, var, srcLane)

@@ -5,7 +5,7 @@
 #include <sm_30_intrinsics.h>
 
 #ifdef __INTELLISENSE__
-#define __shfl_up(a,b)
+#define __shfl_up_sync(0xFFFFFFFF, a,b)
 #endif
 
 static uint32_t *d_tempBranch1Nonces[MAX_GPUS];
@@ -66,10 +66,10 @@ void jackpot_compactTest_cpu_free(int thr_id)
 
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ < 300
 /**
- * __shfl_up() calculates a source lane ID by subtracting delta from the caller's lane ID, and clamping to the range 0..width-1
+ * __shfl_up_sync(0xFFFFFFFF, ) calculates a source lane ID by subtracting delta from the caller's lane ID, and clamping to the range 0..width-1
  */
 #undef __shfl_up
-#define __shfl_up(var, delta, width) (0)
+#define __shfl_up_sync(0xFFFFFFFF, var, delta, width) (0)
 #endif
 
 // Die Summenfunktion (vom NVIDIA SDK)
@@ -128,7 +128,7 @@ void jackpot_compactTest_gpu_SCAN(uint32_t *data, int width, uint32_t *partial_s
 
 	for (int i=1; i<=width; i*=2)
 	{
-		uint32_t n = __shfl_up((int)value, i, width);
+		uint32_t n = __shfl_up_sync(0xFFFFFFFF, (int)value, i, width);
 
 		if (lane_id >= i) value += n;
 	}
@@ -155,7 +155,7 @@ void jackpot_compactTest_gpu_SCAN(uint32_t *data, int width, uint32_t *partial_s
 
 		for (int i=1; i<=width; i*=2)
 		{
-			uint32_t n = __shfl_up((int)warp_sum, i, width);
+			uint32_t n = __shfl_up_sync(0xFFFFFFFF, (int)warp_sum, i, width);
 
 		if (lane_id >= i) warp_sum += n;
 		}

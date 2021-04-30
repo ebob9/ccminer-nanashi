@@ -16,7 +16,7 @@
 
 #ifdef __INTELLISENSE__
 /* just for vstudio code colors */
-__device__ uint32_t __shfl(uint32_t a, uint32_t b, uint32_t c);
+__device__ uint32_t __shfl_sync(0xFFFFFFFFu, uint32_t a, uint32_t b, uint32_t c);
 #define atomicMin()
 #define __CUDA_ARCH__ 520
 #endif
@@ -271,12 +271,6 @@ void lyra2Z_gpu_hash_32_sm2(uint32_t threads, uint32_t startNounce, uint64_t *g_
 #else
 __global__ void lyra2Z_gpu_hash_32_sm2(uint32_t threads, uint32_t startNounce, uint64_t *g_hash, uint32_t *resNonces) {}
 #endif
-#if __CUDA_ARCH__ < 350
-__device__ void* DMatrix;
-#endif
-#if __CUDA_ARCH__ != 500 && __CUDA_ARCH__ > 350
-__device__ uint2 *DMatrix;
-#endif
 #if __CUDA_ARCH__ > 500
 
 #include "cuda_lyra2_vectors.h"
@@ -358,12 +352,12 @@ void ST4S(const int row, const int col, const uint2 data[3], const int thread, c
 #if __CUDA_ARCH__ >= 300
 __device__ __forceinline__ uint32_t WarpShuffle(uint32_t a, uint32_t b, uint32_t c)
 {
-	return __shfl(a, b, c);
+	return __shfl_sync(0xFFFFFFFFu, a, b, c);
 }
 
 __device__ __forceinline__ uint2 WarpShuffle(uint2 a, uint32_t b, uint32_t c)
 {
-	return make_uint2(__shfl(a.x, b, c), __shfl(a.y, b, c));
+	return make_uint2(__shfl_sync(0xFFFFFFFFu, a.x, b, c), __shfl_sync(0xFFFFFFFFu, a.y, b, c));
 }
 
 __device__ __forceinline__

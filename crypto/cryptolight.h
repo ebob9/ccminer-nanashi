@@ -16,7 +16,7 @@ struct uint3  blockDim;
 #define __syncthreads()
 #define __threadfence_block()
 #define asm(x)
-#define __shfl(a,b,c) 1
+#define __shfl_sync(0xFFFFFFFFu, a,b,c) 1
 #define __umul64hi(a,b) a*b
 #endif
 

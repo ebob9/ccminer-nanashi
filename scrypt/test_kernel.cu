@@ -706,7 +706,7 @@ bool TestKernel::run_kernel(dim3 grid, dim3 threads, int WARPS_PER_BLOCK, int th
 {
 	bool success = true;
 
-	// compute required shared memory per block for __shfl() emulation
+	// compute required shared memory per block for __shfl_sync(0xFFFFFFFFu, ) emulation
 	size_t shared = ((threads.x + 31) / 32) * (32+1) * sizeof(uint32_t);
 
 	// make some constants available to kernel, update only initially and when changing

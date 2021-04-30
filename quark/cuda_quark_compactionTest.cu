@@ -11,7 +11,7 @@
 #ifdef __INTELLISENSE__
 /* just for vstudio code colors */
 #define __CUDA_ARCH__ 300
-#define __shfl_up(var, delta, width) (0)
+#define __shfl_up_sync(0xFFFFFFFF, var, delta, width) (0)
 #endif
 
 static uint32_t *h_numValid[MAX_GPUS];
@@ -127,7 +127,7 @@ void quark_compactTest_gpu_SCAN(uint32_t *data, const int width, uint32_t *parti
 	#pragma unroll
 	for (int i=1; i<=width; i*=2)
 	{
-		uint32_t n = __shfl_up((int)value, i, width);
+		uint32_t n = __shfl_up_sync(0xFFFFFFFF, (int)value, i, width);
 		if (lane_id >= i) value += n;
 	}
 
@@ -153,7 +153,7 @@ void quark_compactTest_gpu_SCAN(uint32_t *data, const int width, uint32_t *parti
 
 		for (int i=1; i<=width; i*=2)
 		{
-			uint32_t n = __shfl_up((int)warp_sum, i, width);
+			uint32_t n = __shfl_up_sync(0xFFFFFFFF, (int)warp_sum, i, width);
 			if (lane_id >= i) warp_sum += n;
 		}
 

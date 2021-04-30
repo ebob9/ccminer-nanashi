@@ -589,14 +589,14 @@ static __device__ __forceinline__ uint28 shuffle4(const uint28 &var, int lane)
 {
 #if __CUDA_ARCH__ >= 300
 	uint28 res;
-	res.x.x = __shfl(var.x.x, lane, 8);
-	res.x.y = __shfl(var.x.y, lane, 8);
-	res.y.x = __shfl(var.y.x, lane, 8);
-	res.y.y = __shfl(var.y.y, lane, 8);
-	res.z.x = __shfl(var.z.x, lane, 8);
-	res.z.y = __shfl(var.z.y, lane, 8);
-	res.w.x = __shfl(var.w.x, lane, 8);
-	res.w.y = __shfl(var.w.y, lane, 8);
+	res.x.x = __shfl_sync(0xFFFFFFFFu, var.x.x, lane, 8);
+	res.x.y = __shfl_sync(0xFFFFFFFFu, var.x.y, lane, 8);
+	res.y.x = __shfl_sync(0xFFFFFFFFu, var.y.x, lane, 8);
+	res.y.y = __shfl_sync(0xFFFFFFFFu, var.y.y, lane, 8);
+	res.z.x = __shfl_sync(0xFFFFFFFFu, var.z.x, lane, 8);
+	res.z.y = __shfl_sync(0xFFFFFFFFu, var.z.y, lane, 8);
+	res.w.x = __shfl_sync(0xFFFFFFFFu, var.w.x, lane, 8);
+	res.w.y = __shfl_sync(0xFFFFFFFFu, var.w.y, lane, 8);
 	return res;
 #else
 	return var;
@@ -609,20 +609,20 @@ static __device__ __forceinline__ ulonglong4 shuffle4(ulonglong4 var, int lane)
 	ulonglong4 res;
     uint2 temp;
 	temp = vectorize(var.x);
-	temp.x = __shfl(temp.x, lane, 8);
-	temp.y = __shfl(temp.y, lane, 8);
+	temp.x = __shfl_sync(0xFFFFFFFFu, temp.x, lane, 8);
+	temp.y = __shfl_sync(0xFFFFFFFFu, temp.y, lane, 8);
 	res.x = devectorize(temp);
 	temp = vectorize(var.y);
-	temp.x = __shfl(temp.x, lane, 8);
-	temp.y = __shfl(temp.y, lane, 8);
+	temp.x = __shfl_sync(0xFFFFFFFFu, temp.x, lane, 8);
+	temp.y = __shfl_sync(0xFFFFFFFFu, temp.y, lane, 8);
 	res.y = devectorize(temp);
 	temp = vectorize(var.z);
-	temp.x = __shfl(temp.x, lane, 8);
-	temp.y = __shfl(temp.y, lane, 8);
+	temp.x = __shfl_sync(0xFFFFFFFFu, temp.x, lane, 8);
+	temp.y = __shfl_sync(0xFFFFFFFFu, temp.y, lane, 8);
 	res.z = devectorize(temp);
 	temp = vectorize(var.w);
-	temp.x = __shfl(temp.x, lane, 8);
-	temp.y = __shfl(temp.y, lane, 8);
+	temp.x = __shfl_sync(0xFFFFFFFFu, temp.x, lane, 8);
+	temp.y = __shfl_sync(0xFFFFFFFFu, temp.y, lane, 8);
 	res.w = devectorize(temp);
 	return res;
 #else

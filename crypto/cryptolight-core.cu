@@ -91,13 +91,13 @@ void cryptolight_core_gpu_phase2(const int threads, const int bfactor, const int
 		for(int i = start; i < end; ++i)
 		{
 			//j = ((uint32_t *)a)[0] & 0xFFFF0;
-			j = (__shfl((int)a, 0, 4) & E2I_MASK1) >> 2;
+			j = (__shfl_sync(0xFFFFFFFFu, (int)a, 0, 4) & E2I_MASK1) >> 2;
 
 			//cn_aes_single_round(sharedMemory, &long_state[j], c, a);
 			x[0] = long_state[j + sub];
-			x[1] = __shfl((int)x[0], sub + 1, 4);
-			x[2] = __shfl((int)x[0], sub + 2, 4);
-			x[3] = __shfl((int)x[0], sub + 3, 4);
+			x[1] = __shfl_sync(0xFFFFFFFFu, (int)x[0], sub + 1, 4);
+			x[2] = __shfl_sync(0xFFFFFFFFu, (int)x[0], sub + 2, 4);
+			x[3] = __shfl_sync(0xFFFFFFFFu, (int)x[0], sub + 3, 4);
 			c = a ^
 				t_fn0(x[0] & 0xff) ^
 				t_fn1((x[1] >> 8) & 0xff) ^
@@ -108,13 +108,13 @@ void cryptolight_core_gpu_phase2(const int threads, const int bfactor, const int
 			long_state[j + sub] = c ^ b;
 
 			//MUL_SUM_XOR_DST(c, a, &long_state[((uint32_t *)c)[0] & 0xFFFF0]);
-			j = (__shfl((int)c, 0, 4) & E2I_MASK1) >> 2;
+			j = (__shfl_sync(0xFFFFFFFFu, (int)c, 0, 4) & E2I_MASK1) >> 2;
 			#pragma unroll
 			for(int k = 0; k < 2; k++)
-				t1[k] = __shfl((int)c, k, 4);
+				t1[k] = __shfl_sync(0xFFFFFFFFu, (int)c, k, 4);
 			#pragma unroll
 			for(int k = 0; k < 4; k++)
-				t2[k] = __shfl((int)a, k, 4);
+				t2[k] = __shfl_sync(0xFFFFFFFFu, (int)a, k, 4);
 			asm(
 				"mad.lo.u64 %0, %2, %3, %4;\n\t"
 				"mad.hi.u64 %1, %2, %3, %5;\n\t"
@@ -125,13 +125,13 @@ void cryptolight_core_gpu_phase2(const int threads, const int bfactor, const int
 			long_state[j + sub] = res;
 
 			//j = ((uint32_t *)a)[0] & 0xFFFF0;
-			j = (__shfl((int)a, 0, 4) & E2I_MASK1) >> 2;
+			j = (__shfl_sync(0xFFFFFFFFu, (int)a, 0, 4) & E2I_MASK1) >> 2;
 
 			//cn_aes_single_round(sharedMemory, &long_state[j], b, a);
 			x[0] = long_state[j + sub];
-			x[1] = __shfl((int)x[0], sub + 1, 4);
-			x[2] = __shfl((int)x[0], sub + 2, 4);
-			x[3] = __shfl((int)x[0], sub + 3, 4);
+			x[1] = __shfl_sync(0xFFFFFFFFu, (int)x[0], sub + 1, 4);
+			x[2] = __shfl_sync(0xFFFFFFFFu, (int)x[0], sub + 2, 4);
+			x[3] = __shfl_sync(0xFFFFFFFFu, (int)x[0], sub + 3, 4);
 			b = a ^
 				t_fn0(x[0] & 0xff) ^
 				t_fn1((x[1] >> 8) & 0xff) ^
@@ -142,15 +142,15 @@ void cryptolight_core_gpu_phase2(const int threads, const int bfactor, const int
 			long_state[j + sub] = c ^ b;
 
 			//MUL_SUM_XOR_DST(b, a, &long_state[((uint32_t *)b)[0] & 0xFFFF0]);
-			j = (__shfl((int)b, 0, 4) & E2I_MASK1) >> 2;
+			j = (__shfl_sync(0xFFFFFFFFu, (int)b, 0, 4) & E2I_MASK1) >> 2;
 
 			#pragma unroll
 			for(int k = 0; k < 2; k++)
-				t1[k] = __shfl((int)b, k, 4);
+				t1[k] = __shfl_sync(0xFFFFFFFFu, (int)b, k, 4);
 
 			#pragma unroll
 			for(int k = 0; k < 4; k++)
-				t2[k] = __shfl((int)a, k, 4);
+				t2[k] = __shfl_sync(0xFFFFFFFFu, (int)a, k, 4);
 			asm(
 				"mad.lo.u64 %0, %2, %3, %4;\n\t"
 				"mad.hi.u64 %1, %2, %3, %5;\n\t"

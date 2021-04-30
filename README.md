@@ -1,6 +1,14 @@
 ccsolominer
 ==========
 
+Update of Beanjo55's ccsolominer.
+
+Added CUDA 11.2 support to play with newer cards.
+
+Likely badly broken, won't be maintained, may randomly send coins to me. (Well, not that last part, but who knows?)
+
+
+#### Old README:
 
 Based on Christian Buchner's &amp; Christian H.'s CUDA project, no more active on github recently.
 

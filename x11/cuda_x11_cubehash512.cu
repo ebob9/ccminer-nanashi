@@ -56,14 +56,14 @@ void rrounds(uint32_t *x){
 		x[ 6] = ROTL32(x[ 6],11);
 		x[ 7] = ROTL32(x[ 7],11);
 		/* "swap x_0j0lm with x_0j1lm" */
-		x[ 0] = __shfl(x[ 0],threadIdx.x^1);
-		x[ 1] = __shfl(x[ 1],threadIdx.x^1);
-		x[ 2] = __shfl(x[ 2],threadIdx.x^1);
-		x[ 3] = __shfl(x[ 3],threadIdx.x^1);
-		x[ 4] = __shfl(x[ 4],threadIdx.x^1);
-		x[ 5] = __shfl(x[ 5],threadIdx.x^1);
-		x[ 6] = __shfl(x[ 6],threadIdx.x^1);
-		x[ 7] = __shfl(x[ 7],threadIdx.x^1);
+		x[ 0] = __shfl_sync(0xFFFFFFFFu, x[ 0],threadIdx.x^1);
+		x[ 1] = __shfl_sync(0xFFFFFFFFu, x[ 1],threadIdx.x^1);
+		x[ 2] = __shfl_sync(0xFFFFFFFFu, x[ 2],threadIdx.x^1);
+		x[ 3] = __shfl_sync(0xFFFFFFFFu, x[ 3],threadIdx.x^1);
+		x[ 4] = __shfl_sync(0xFFFFFFFFu, x[ 4],threadIdx.x^1);
+		x[ 5] = __shfl_sync(0xFFFFFFFFu, x[ 5],threadIdx.x^1);
+		x[ 6] = __shfl_sync(0xFFFFFFFFu, x[ 6],threadIdx.x^1);
+		x[ 7] = __shfl_sync(0xFFFFFFFFu, x[ 7],threadIdx.x^1);
 	
 		x[ 0] ^= x[ 8]; x[ 1] ^= x[ 9];
 		x[ 2] ^= x[10]; x[ 3] ^= x[11];
